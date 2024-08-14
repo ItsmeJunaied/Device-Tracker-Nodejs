@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     const fetchScreenShotData = async () => {
       try {
-        const getData = await axios.get("https://screenshot-server-h62cwwq1s-itsmejunaieds-projects.vercel.app//screenshotData");
+        const getData = await axios.get("https://screenshot-server-h62cwwq1s-itsmejunaieds-projects.vercel.app/screenshotData");
         setUserData(getData.data);
       } catch (error) {
         console.error(error);
@@ -31,7 +31,7 @@ function App() {
   //start taking screenshot
   const statScreenshot = async () => {
     try {
-      const response = await axios.post("https://screenshot-server-h62cwwq1s-itsmejunaieds-projects.vercel.app//start");
+      const response = await axios.post("https://screenshot-server-h62cwwq1s-itsmejunaieds-projects.vercel.app/start");
 
       console.log(response.data.message);
     } catch (error) {
@@ -42,7 +42,7 @@ function App() {
   //stop taking screenshot
   const stopScreenshot = async () => {
     try {
-      const response = await axios.post("https://screenshot-server-h62cwwq1s-itsmejunaieds-projects.vercel.app//stop");
+      const response = await axios.post("https://screenshot-server-h62cwwq1s-itsmejunaieds-projects.vercel.app/stop");
 
       console.log(response.data.message);
     } catch (error) {
