@@ -7,6 +7,8 @@ function App() {
   const [userData, setUserData] = useState(null);
   const [timer, setTimer] = useState(5);
   const [isStart, setIsStart] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
     let interval;
@@ -23,6 +25,7 @@ function App() {
 
   useEffect(() => {
     const fetchScreenShotData = async () => {
+      setLoading(true);
       try {
         const getData = await axios.get(
           "https://screenshot-server-jade.vercel.app/screenshotData"
@@ -30,11 +33,12 @@ function App() {
         setUserData(getData.data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchScreenShotData();
-
   }, []);
 
   //start taking screenshot
@@ -47,10 +51,12 @@ function App() {
 
       console.log(response.data.message);
 
-      const intervalId = setInterval(fetchScreenShotData, 5000);
-    
-      // Store interval ID to clear it later when stopping
-      setIntervalId(intervalId);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+
+      const newIntervalId = setInterval(fetchScreenShotData, 5000);
+      setIntervalId(newIntervalId);
     } catch (error) {
       console.error(error);
     }
@@ -65,10 +71,22 @@ function App() {
       );
 
       console.log(response.data.message);
+
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [intervalId]);
 
   return (
     <div className=" container mx-auto mt-10">
@@ -91,7 +109,8 @@ function App() {
 
       <div>
         <p className=" scroll-m-20 text-xl font-extrabold tracking-tight lg:text-xl my-6">
-          <span className=" text-orange-400">Total:- </span>{userData?.length}
+          <span className=" text-orange-400">Total:- </span>
+          {userData?.length}
         </p>
       </div>
       <div className=" grid grid-cols-3 mt-10 gap-10">
