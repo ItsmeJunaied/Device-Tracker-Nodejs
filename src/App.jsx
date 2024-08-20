@@ -36,7 +36,7 @@ function App() {
     fetchScreenShotData();
 
     // Set up polling to fetch data every 5 seconds
-    const intervalId = setInterval(fetchScreenShotData, 20000);
+    const intervalId = setInterval(fetchScreenShotData, 5000);
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
