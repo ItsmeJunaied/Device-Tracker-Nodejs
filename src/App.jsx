@@ -10,6 +10,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [intervalId, setIntervalId] = useState(null);
 
+  console.log(isStart)
   useEffect(() => {
     let interval;
     if (isStart) {
@@ -43,6 +44,12 @@ function App() {
 
   //start taking screenshot
   const statScreenshot = async () => {
+
+    if (isStart) {
+      console.log("Screenshot process already started");
+      return; // Exit early if the process is already running
+    }
+
     try {
       setIsStart(true);
       const response = await axios.post(
